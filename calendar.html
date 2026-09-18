@@ -4,155 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendar | Assignments</title>
+    <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="calendar.css">
 </head>
 <body>
 
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="logo">A</div>
-            <div class="brand">
+    <div class="dashboard-layout">
+
+        <aside class="sidebar" id="sidebar">
+
+            <div class="sidebar-brand">
                 <h2>Assignments</h2>
-                <span>Teacher Portal</span>
             </div>
-        </div>
 
-        <nav class="sidebar-nav">
-            <a href="dashboard.html" class="nav-link">
-                <span>Dashboard</span>
-            </a>
-
-            <a href="tasks.html" class="nav-link">
-                <span>My Tasks</span>
-            </a>
-
-            <a href="submission.html" class="nav-link">
-                <span>Submissions</span>
-            </a>
-
-            <a href="calendar.html" class="nav-link active">
-                <span>Calendar</span>
-            </a>
-
-            <a href="settings.html" class="nav-link">
-                <span>Settings</span>
-            </a>
-        </nav>
-
-        <div class="sidebar-footer">
-            <div class="profile">
-                <div class="profile-avatar">T</div>
+            <div class="user-profile">
+                <div class="user-avatar" id="sidebarAvatar">S</div>
                 <div>
-                    <strong>Teacher</strong>
-                    <span>Teacher Account</span>
+                    <h4 id="sidebarUsername">Student</h4>
+                    <span>Student Account</span>
                 </div>
             </div>
-        </div>
-    </aside>
 
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+            <nav class="sidebar-nav">
 
-    <main class="main-content">
+                <a href="dashboard.html" class="nav-link">
+                    <span class="nav-icon">⌂</span>
+                    <span>Dashboard</span>
+                </a>
 
-        <header class="topbar">
-            <div class="topbar-left">
-                <button class="menu-button" id="menuButton" aria-label="Open menu">
+                <a href="my-tasks.html" class="nav-link">
+                    <span class="nav-icon">▤</span>
+                    <span>My Tasks</span>
+                </a>
+
+                <a href="submission.html" class="nav-link">
+                    <span class="nav-icon">✓</span>
+                    <span>Submissions</span>
+                </a>
+
+                <a href="calendar.html" class="nav-link active">
+                    <span class="nav-icon">▦</span>
+                    <span>Calendar</span>
+                </a>
+
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">⚙</span>
+                    <span>Settings</span>
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="index.html" class="nav-link">
+                    <span class="nav-icon">↪</span>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <main class="main-content">
+
+            <header class="topbar">
+
+                <button class="menu-button" id="menuButton">
                     ☰
                 </button>
 
-                <div>
-                    <h1>Calendar</h1>
-                    <p>Manage assignment deadlines and important dates</p>
-                </div>
-            </div>
-
-            <div class="topbar-actions">
-                <button class="notification-button" aria-label="Notifications">
-                    
-                </button>
-                <div class="topbar-avatar">T</div>
-            </div>
-        </header>
-
-        <section class="calendar-page">
-
-            <div class="page-header">
-                <div>
-                    <h2>Assignment Calendar</h2>
-                    <p>View your assignments, deadlines, and important academic dates.</p>
+                <div class="topbar-title">
+                    <h3>Calendar</h3>
                 </div>
 
-                <button class="today-button" id="todayButton">
-                    Today
-                </button>
-            </div>
+                <div class="topbar-user">
+                    <span id="topbarUsername">Student</span>
+                </div>
 
-            <div class="calendar-layout">
+            </header>
 
-                <div class="calendar-card">
+            <section class="calendar-page">
 
-                    <div class="calendar-header">
-                        <button class="month-button" id="prevMonth">
-                            ‹
-                        </button>
-
-                        <h2 id="currentMonth"></h2>
-
-                        <button class="month-button" id="nextMonth">
-                            ›
-                        </button>
+                <div class="page-heading">
+                    <div>
+                        <h1>Calendar</h1>
+                        <p>Track your assignment deadlines and important dates.</p>
                     </div>
 
-                    <div class="weekdays">
-                        <div>Sun</div>
-                        <div>Mon</div>
-                        <div>Tue</div>
-                        <div>Wed</div>
-                        <div>Thu</div>
-                        <div>Fri</div>
-                        <div>Sat</div>
+                    <button class="today-button" id="todayButton">
+                        Today
+                    </button>
+                </div>
+
+                <div class="calendar-layout">
+
+                    <section class="calendar-card">
+
+                        <div class="calendar-header">
+
+                            <button class="month-button" id="previousMonth">
+                                ‹
+                            </button>
+
+                            <h2 id="calendarMonth">September 2026</h2>
+
+                            <button class="month-button" id="nextMonth">
+                                ›
+                            </button>
+
+                        </div>
+
+                        <div class="calendar-weekdays">
+                            <span>Sun</span>
+                            <span>Mon</span>
+                            <span>Tue</span>
+                            <span>Wed</span>
+                            <span>Thu</span>
+                            <span>Fri</span>
+                            <span>Sat</span>
+                        </div>
+
+                        <div class="calendar-days" id="calendarDays"></div>
+
+                    </section>
+
+                    <aside class="upcoming-card">
+
+                        <div class="upcoming-header">
+                            <h2>Upcoming Deadlines</h2>
+                            <span id="upcomingCount">0</span>
+                        </div>
+
+                        <div class="upcoming-list" id="upcomingList"></div>
+
+                        <div class="empty-upcoming" id="emptyUpcoming">
+                            No upcoming deadlines.
+                        </div>
+
+                    </aside>
+
+                </div>
+
+                <div class="calendar-legend">
+
+                    <div class="legend-item">
+                        <span class="legend-dot assignment-dot"></span>
+                        <span>Assignment Deadline</span>
                     </div>
 
-                    <div class="calendar-grid" id="calendarGrid"></div>
-
-                </div>
-
-                <aside class="events-card">
-
-                    <div class="events-header">
-                        <h3>Upcoming</h3>
-                        <span id="eventCount">0 events</span>
+                    <div class="legend-item">
+                        <span class="legend-dot today-dot"></span>
+                        <span>Today</span>
                     </div>
 
-                    <div class="events-list" id="eventsList"></div>
-
-                </aside>
-
-            </div>
-
-            <div class="legend-card">
-
-                <div class="legend-item">
-                    <span class="legend-dot assignment"></span>
-                    <span>Assignment</span>
                 </div>
 
-                <div class="legend-item">
-                    <span class="legend-dot deadline"></span>
-                    <span>Deadline</span>
-                </div>
+            </section>
 
-                <div class="legend-item">
-                    <span class="legend-dot important"></span>
-                    <span>Important Date</span>
-                </div>
+        </main>
 
-            </div>
-
-        </section>
-
-    </main>
+    </div>
 
     <script src="calendar.js"></script>
+
 </body>
 </html>
