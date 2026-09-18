@@ -61,9 +61,7 @@ menuButton.addEventListener("click", () => {
 sidebarOverlay.addEventListener("click", closeSidebar);
 
 navLinks.forEach(link => {
-    link.addEventListener("click", event => {
-        event.preventDefault();
-
+    link.addEventListener("click", () => {
         navLinks.forEach(item => item.classList.remove("active"));
         link.classList.add("active");
 
