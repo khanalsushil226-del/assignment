@@ -1,15 +1,50 @@
 const registerForm = document.getElementById("registerForm");
+const registerRole = document.getElementById("registerRole");
+const registerUsername = document.getElementById("registerUsername");
+const registerEmail = document.getElementById("registerEmail");
+const registerPassword = document.getElementById("registerPassword");
+const confirmPassword = document.getElementById("confirmPassword");
+const showRegisterPassword = document.getElementById("showRegisterPassword");
 const registerMessage = document.getElementById("registerMessage");
 
-registerForm.addEventListener("submit", async event => {
+showRegisterPassword.addEventListener("click", () => {
+    const isPasswordHidden = registerPassword.type === "password";
+
+    registerPassword.type = isPasswordHidden ? "text" : "password";
+    confirmPassword.type = isPasswordHidden ? "text" : "password";
+
+    showRegisterPassword.textContent = isPasswordHidden
+        ? "Hide Password"
+        : "Show Password";
+});
+
+registerForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
+    const role = registerRole.value;
+    const username = registerUsername.value.trim();
+    const email = registerEmail.value.trim();
+    const password = registerPassword.value;
+    const confirmPasswordValue = confirmPassword.value;
 
-    if (password !== confirmPassword) {
+    registerMessage.textContent = "";
+    registerMessage.style.color = "";
+
+    if (!role || !username || !email || !password || !confirmPasswordValue) {
+        registerMessage.textContent = "Please fill in all fields.";
+        registerMessage.style.color = "red";
+        return;
+    }
+
+    if (password.length < 6) {
+        registerMessage.textContent = "Password must contain at least 6 characters.";
+        registerMessage.style.color = "red";
+        return;
+    }
+
+    if (password !== confirmPasswordValue) {
         registerMessage.textContent = "Passwords do not match.";
+        registerMessage.style.color = "red";
         return;
     }
 
@@ -20,21 +55,32 @@ registerForm.addEventListener("submit", async event => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
+                role: role,
                 username: username,
+                email: email,
                 password: password
             })
         });
 
-        const data = await response.json();
+        const result = await response.json();
 
-        registerMessage.textContent = data.message;
-
-        if (response.ok) {
-            registerForm.reset();
+        if (!response.ok) {
+            registerMessage.textContent = result.message;
+            registerMessage.style.color = "red";
+            return;
         }
 
+        registerMessage.textContent = result.message;
+        registerMessage.style.color = "green";
+
+        registerForm.reset();
+
+        setTimeout(() => {
+            window.location.href = "index.html";
+        }, 1500);
+
     } catch (error) {
-        registerMessage.textContent =
-            "Unable to connect to the server.";
+        registerMessage.textContent = "Unable to connect to the server.";
+        registerMessage.style.color = "red";
     }
 });
