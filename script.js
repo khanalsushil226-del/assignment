@@ -40,8 +40,17 @@ loginForm.addEventListener("submit", (event) => {
         return;
     }
 
-    loginMessage.textContent = `Demo login successful as ${role}.`;
-    loginMessage.style.color = "#056c24";
+    if (role === "student") {
+        localStorage.setItem("username", username);
+        localStorage.setItem("role", role);
+
+        window.location.href = "dashboard.html";
+    }
+
+    if (role === "teacher") {
+        loginMessage.textContent = "Teacher dashboard coming soon.";
+        loginMessage.style.color = "#056c24";
+    }
 });
 
 const forgotPasswordLink = document.querySelector(".forgot-password");

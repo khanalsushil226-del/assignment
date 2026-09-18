@@ -1,4 +1,21 @@
-const menuButton = document.getElementById("menuButton");
+
+const username = localStorage.getItem("username") || "Student";
+
+const sidebarUsername = document.getElementById("sidebarUsername");
+const topbarUsername = document.getElementById("topbarUsername");
+const welcomeUsername = document.getElementById("welcomeUsername");
+
+if (sidebarUsername) {
+    sidebarUsername.textContent = username;
+}
+
+if (topbarUsername) {
+    topbarUsername.textContent = username;
+}
+
+if (welcomeUsername) {
+    welcomeUsername.textContent = username;
+}const menuButton = document.getElementById("menuButton");
 const sidebar = document.getElementById("sidebar");
 const sidebarOverlay = document.getElementById("sidebarOverlay");
 
