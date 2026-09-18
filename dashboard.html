@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments | Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar" id="sidebar">
+
+            <div class="sidebar-brand">
+                <span>Assignments</span>
+            </div>
+
+            <div class="user-profile">
+                <div class="user-avatar">S</div>
+                <div>
+                    <h4>Student</h4>
+                    <span>Student Account</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <p class="nav-label">MAIN MENU</p>
+
+                <a href="#" class="nav-link active">
+                    <span class="nav-icon">⌂</span>
+                    Dashboard
+                </a>
+
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">▤</span>
+                    My Tasks
+                </a>
+
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">✓</span>
+                    Submissions
+                </a>
+
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">◷</span>
+                    Calendar
+                </a>
+
+                <p class="nav-label">ACCOUNT</p>
+
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">⚙</span>
+                    Settings
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="index.html" class="logout-link">
+                    <span class="nav-icon">↪</span>
+                    Logout
+                </a>
+            </div>
+
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <main class="main-content">
+
+            <header class="topbar">
+
+                <button class="menu-button" id="menuButton">
+                    ☰
+                </button>
+
+                <div class="topbar-title">
+                    <h2>Dashboard</h2>
+                    <p>Manage your academic activities</p>
+                </div>
+
+                <div class="topbar-right">
+
+                    <button class="notification-button">
+                        ♧
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <div class="topbar-user">
+                        <div class="user-avatar small">S</div>
+                        <div>
+                            <strong>Student</strong>
+                            <span>Student</span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </header>
+
+            <section class="dashboard-content">
+
+                <div class="welcome-section">
+
+                    <div>
+                        <span class="welcome-label">STUDENT WORKSPACE</span>
+                        <h1>Welcome back, Student! 👋</h1>
+                        <p>Here's what's happening with your assignments today.</p>
+                    </div>
+
+                    <div class="date-display">
+                        <span>Today</span>
+                        <strong id="currentDate">September 18, 2026</strong>
+                    </div>
+
+                </div>
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-header">
+                            <span>Total Assignments</span>
+                            <div class="stat-icon green">▤</div>
+                        </div>
+
+                        <h2 id="totalTasks">12</h2>
+                        <p class="stat-description">Assigned to you</p>
+
+                    </div>
+
+                    <div class="stat-card">
+
+                        <div class="stat-header">
+                            <span>Pending Tasks</span>
+                            <div class="stat-icon orange">◷</div>
+                        </div>
+
+                        <h2 id="pendingTasks">5</h2>
+                        <p class="stat-description">Awaiting submission</p>
+
+                    </div>
+
+                    <div class="stat-card">
+
+                        <div class="stat-header">
+                            <span>Submitted</span>
+                            <div class="stat-icon blue">✓</div>
+                        </div>
+
+                        <h2 id="submittedTasks">7</h2>
+                        <p class="stat-description">Assignments submitted</p>
+
+                    </div>
+
+                    <div class="stat-card">
+
+                        <div class="stat-header">
+                            <span>Completion Rate</span>
+                            <div class="stat-icon purple">↗</div>
+                        </div>
+
+                        <h2 id="completionRate">58%</h2>
+                        <p class="stat-description">Overall progress</p>
+
+                    </div>
+
+                </div>
+
+                <div class="dashboard-grid">
+
+                    <section class="tasks-section">
+
+                        <div class="section-header">
+
+                            <div>
+                                <h2>Recent Assignments</h2>
+                                <p>Keep track of your latest tasks.</p>
+                            </div>
+
+                            <a href="#" class="view-all">View All →</a>
+
+                        </div>
+
+                        <div class="tasks-list" id="tasksList">
+
+                            <div class="task-card">
+
+                                <div class="task-card-top">
+
+                                    <div class="task-type">PYTHON</div>
+
+                                    <span class="task-status pending">
+                                        Pending
+                                    </span>
+
+                                </div>
+
+                                <h3>Build a Calculator</h3>
+
+                                <p>Create a calculator using Python functions and conditional statements.</p>
+
+                                <div class="task-card-bottom">
+
+                                    <div class="task-deadline">
+                                        <span>◷</span>
+                                        Due: Sep 25, 2026
+                                    </div>
+
+                                    <button class="task-button" data-task="Build a Calculator">
+                                        View Task
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="task-card">
+
+                                <div class="task-card-top">
+
+                                    <div class="task-type">DATABASE</div>
+
+                                    <span class="task-status submitted">
+                                        Submitted
+                                    </span>
+
+                                </div>
+
+                                <h3>Database Assignment</h3>
+
+                                <p>Design a relational database and write SQL queries for the given problem.</p>
+
+                                <div class="task-card-bottom">
+
+                                    <div class="task-deadline">
+                                        <span>◷</span>
+                                        Due: Sep 28, 2026
+                                    </div>
+
+                                    <button class="task-button" data-task="Database Assignment">
+                                        View Task
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="task-card">
+
+                                <div class="task-card-top">
+
+                                    <div class="task-type">WEB DEVELOPMENT</div>
+
+                                    <span class="task-status pending">
+                                        Pending
+                                    </span>
+
+                                </div>
+
+                                <h3>Responsive Website</h3>
+
+                                <p>Create a responsive website using HTML, CSS, and JavaScript.</p>
+
+                                <div class="task-card-bottom">
+
+                                    <div class="task-deadline">
+                                        <span>◷</span>
+                                        Due: Oct 2, 2026
+                                    </div>
+
+                                    <button class="task-button" data-task="Responsive Website">
+                                        View Task
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+                    <aside class="dashboard-side">
+
+                        <div class="progress-card">
+
+                            <div class="section-header">
+                                <div>
+                                    <h2>Your Progress</h2>
+                                    <p>Assignment completion</p>
+                                </div>
+                            </div>
+
+                            <div class="progress-circle">
+                                <div class="progress-inner">
+                                    <strong>58%</strong>
+                                    <span>Completed</span>
+                                </div>
+                            </div>
+
+                            <div class="progress-details">
+
+                                <div>
+                                    <span class="progress-dot completed"></span>
+                                    <span>Submitted</span>
+                                    <strong>7</strong>
+                                </div>
+
+                                <div>
+                                    <span class="progress-dot pending-dot"></span>
+                                    <span>Pending</span>
+                                    <strong>5</strong>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="upcoming-card">
+
+                            <div class="section-header">
+                                <div>
+                                    <h2>Upcoming Deadlines</h2>
+                                    <p>Don't miss your tasks.</p>
+                                </div>
+                            </div>
+
+                            <div class="deadline-item">
+
+                                <div class="deadline-date">
+                                    <strong>25</strong>
+                                    <span>SEP</span>
+                                </div>
+
+                                <div>
+                                    <h4>Python Calculator</h4>
+                                    <span>Assignment deadline</span>
+                                </div>
+
+                            </div>
+
+                            <div class="deadline-item">
+
+                                <div class="deadline-date">
+                                    <strong>28</strong>
+                                    <span>SEP</span>
+                                </div>
+
+                                <div>
+                                    <h4>Database Assignment</h4>
+                                    <span>Assignment deadline</span>
+                                </div>
+
+                            </div>
+
+                            <div class="deadline-item">
+
+                                <div class="deadline-date">
+                                    <strong>02</strong>
+                                    <span>OCT</span>
+                                </div>
+
+                                <div>
+                                    <h4>Responsive Website</h4>
+                                    <span>Assignment deadline</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </aside>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <div class="task-modal" id="taskModal">
+
+        <div class="modal-content">
+
+            <button class="modal-close" id="modalClose">×</button>
+
+            <span class="form-label">ASSIGNMENT DETAILS</span>
+
+            <h2 id="modalTaskTitle">Task Title</h2>
+
+            <p id="modalTaskDescription">
+                Assignment details will appear here.
+            </p>
+
+            <div class="modal-actions">
+                <button class="modal-secondary" id="modalCancel">
+                    Close
+                </button>
+
+                <button class="modal-primary" id="modalSubmit">
+                    Submit Assignment
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="dashboard.js"></script>
+
+</body>
+</html>
