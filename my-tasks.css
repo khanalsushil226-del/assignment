@@ -329,3 +329,49 @@
         gap: 10px;
     }
 }
+.role-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.primary-button,
+.secondary-button {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.primary-button {
+    background: var(--primary, #056c24);
+    color: white;
+}
+
+.primary-button:hover {
+    background: var(--primary-dark, #04551c);
+}
+
+.secondary-button {
+    background: var(--primary-light, #eaf7ee);
+    color: var(--primary, #056c24);
+}
+
+.secondary-button:hover {
+    background: #d6f0dc;
+}
+
+@media (max-width: 600px) {
+    .role-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .primary-button,
+    .secondary-button {
+        width: 100%;
+    }
+}

@@ -1,4 +1,26 @@
-const username = localStorage.getItem("username") || "Student";
+
+const userRole = localStorage.getItem("role");
+
+const addTaskButton = document.getElementById("addTaskButton");
+const raiseQuestionButton = document.getElementById("raiseQuestionButton");
+
+if (userRole === "teacher") {
+    raiseQuestionButton.style.display = "none";
+} else {
+    addTaskButton.style.display = "none";
+}
+
+addTaskButton.addEventListener("click", () => {
+    alert("Add Task form will open here.");
+});
+
+raiseQuestionButton.addEventListener("click", () => {
+    const question = prompt("Enter your question:");
+
+    if (question && question.trim() !== "") {
+        alert("Your question has been submitted.");
+    }
+});const username = localStorage.getItem("username") || "Student";
 
 const sidebarUsername = document.getElementById("sidebarUsername");
 const topbarUsername = document.getElementById("topbarUsername");
