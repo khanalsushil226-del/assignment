@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Assignments</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar" id="sidebar">
+
+            <div class="sidebar-brand">
+                <h2>Assignments</h2>
+            </div>
+
+            <div class="user-profile">
+                <div class="user-avatar" id="sidebarAvatar">S</div>
+                <div>
+                    <h4 id="sidebarUsername">Student</h4>
+                    <span>Student Account</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="dashboard.html" class="nav-link">
+                    <span class="nav-icon">⌂</span>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="my-tasks.html" class="nav-link">
+                    <span class="nav-icon">▤</span>
+                    <span>My Tasks</span>
+                </a>
+
+                <a href="submission.html" class="nav-link">
+                    <span class="nav-icon">✓</span>
+                    <span>Submissions</span>
+                </a>
+
+                <a href="calendar.html" class="nav-link">
+                    <span class="nav-icon">▦</span>
+                    <span>Calendar</span>
+                </a>
+
+                <a href="settings.html" class="nav-link active">
+                    <span class="nav-icon">⚙</span>
+                    <span>Settings</span>
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="index.html" class="nav-link">
+                    <span class="nav-icon">↪</span>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <main class="main-content">
+
+            <header class="topbar">
+
+                <button class="menu-button" id="menuButton">
+                    ☰
+                </button>
+
+                <div class="topbar-title">
+                    <h3>Settings</h3>
+                </div>
+
+                <div class="topbar-user">
+                    <span id="topbarUsername">Student</span>
+                </div>
+
+            </header>
+
+            <section class="settings-page">
+
+                <div class="page-heading">
+                    <div>
+                        <h1>Settings</h1>
+                        <p>Manage your account and application preferences.</p>
+                    </div>
+                </div>
+
+                <div class="settings-layout">
+
+                    <section class="settings-card">
+
+                        <div class="settings-card-header">
+                            <h2>Profile Information</h2>
+                            <p>View and update your basic account information.</p>
+                        </div>
+
+                        <form id="profileForm">
+
+                            <div class="profile-preview">
+                                <div class="large-avatar" id="profileAvatar">S</div>
+
+                                <div>
+                                    <h3 id="profileDisplayName">Student</h3>
+                                    <p>Student Account</p>
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label for="profileUsername">Username</label>
+                                    <input
+                                        type="text"
+                                        id="profileUsername"
+                                        placeholder="Enter username"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="profileRole">Account Role</label>
+                                    <input
+                                        type="text"
+                                        id="profileRole"
+                                        value="Student"
+                                        disabled
+                                    >
+                                </div>
+
+                            </div>
+
+                            <button type="submit" class="primary-button">
+                                Save Profile
+                            </button>
+
+                            <p class="form-message" id="profileMessage"></p>
+
+                        </form>
+
+                    </section>
+
+                    <section class="settings-card">
+
+                        <div class="settings-card-header">
+                            <h2>Notifications</h2>
+                            <p>Control how you receive assignment updates.</p>
+                        </div>
+
+                        <div class="setting-option">
+                            <div>
+                                <h3>Assignment Reminders</h3>
+                                <p>Receive reminders about upcoming deadlines.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="assignmentReminders" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-option">
+                            <div>
+                                <h3>Submission Updates</h3>
+                                <p>Get notified when submission status changes.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="submissionUpdates" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                    </section>
+
+                    <section class="settings-card">
+
+                        <div class="settings-card-header">
+                            <h2>Appearance</h2>
+                            <p>Customize your application appearance.</p>
+                        </div>
+
+                        <div class="setting-option">
+                            <div>
+                                <h3>Compact View</h3>
+                                <p>Use a more compact layout for content.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="compactView">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                    </section>
+
+                    <section class="settings-card">
+
+                        <div class="settings-card-header">
+                            <h2>Security</h2>
+                            <p>Manage your account security settings.</p>
+                        </div>
+
+                        <div class="security-row">
+                            <div>
+                                <h3>Password</h3>
+                                <p>Password management will be connected to the backend.</p>
+                            </div>
+
+                            <button type="button" class="secondary-button" id="changePassword">
+                                Change Password
+                            </button>
+                        </div>
+
+                        <p class="form-message" id="securityMessage"></p>
+
+                    </section>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="settings.js"></script>
+
+</body>
+</html>
