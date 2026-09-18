@@ -75,10 +75,9 @@ registerForm.addEventListener("submit", async (event) => {
 
         registerForm.reset();
 
-        setTimeout(() => {
-            window.location.href = "index.html";
-        }, 1500);
-
+       setTimeout(() => {
+    window.location.replace("./index.html");
+}, 1500);
     } catch (error) {
         registerMessage.textContent = "Unable to connect to the server.";
         registerMessage.style.color = "red";
