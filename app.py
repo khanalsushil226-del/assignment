@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from werkzeug.security import generate_password_hash
 import sqlite3
 
 app = Flask(__name__)
+CORS(app)
 
 def get_database():
     connection = sqlite3.connect("assignments.db")
@@ -19,12 +21,24 @@ def home():
 def register():
     data = request.get_json()
 
-    username = data.get("username", "").strip()
-    password = data.get("password", "")
-
-    if not username or not password:
+    if not data:
         return jsonify({
-            "message": "Username and password are required"
+            "message": "Invalid request data"
+        }), 400
+
+    username = data.get("username", "").strip()
+    email = data.get("email", "").strip()
+    password = data.get("password", "")
+    role = data.get("role", "").strip().lower()
+
+    if not username or not email or not password or not role:
+        return jsonify({
+            "message": "All fields are required"
+        }), 400
+
+    if role not in ["student", "teacher"]:
+        return jsonify({
+            "message": "Invalid role selected"
         }), 400
 
     if len(password) < 6:
@@ -35,26 +49,38 @@ def register():
     connection = get_database()
     cursor = connection.cursor()
 
-    existing_student = cursor.execute(
+    existing_username = cursor.execute(
         "SELECT id FROM students WHERE username = ?",
         (username,)
     ).fetchone()
 
-    if existing_student:
+    if existing_username:
         connection.close()
 
         return jsonify({
             "message": "Username already exists"
         }), 409
 
+    existing_email = cursor.execute(
+        "SELECT id FROM students WHERE email = ?",
+        (email,)
+    ).fetchone()
+
+    if existing_email:
+        connection.close()
+
+        return jsonify({
+            "message": "Email already exists"
+        }), 409
+
     hashed_password = generate_password_hash(password)
 
     cursor.execute(
         """
-        INSERT INTO students (username, password, role)
-        VALUES (?, ?, ?)
+        INSERT INTO students (username, email, password, role)
+        VALUES (?, ?, ?, ?)
         """,
-        (username, hashed_password, "student")
+        (username, email, hashed_password, role)
     )
 
     connection.commit()
