@@ -195,5 +195,33 @@ def create_assignment():
         "message": "Assignment created successfully",
         "assignment_id": assignment_id
     }), 201
+@app.route("/assignments", methods=["GET"])
+def get_assignments():
+    connection = get_database()
+    cursor = connection.cursor()
+
+    assignments = cursor.execute(
+        """
+        SELECT
+            assignments.id,
+            assignments.title,
+            assignments.subject,
+            assignments.description,
+            assignments.due_date,
+            assignments.teacher_id,
+            assignments.created_at,
+            students.username AS teacher_username
+        FROM assignments
+        JOIN students
+        ON assignments.teacher_id = students.id
+        ORDER BY assignments.due_date ASC
+        """
+    ).fetchall()
+
+    connection.close()
+
+    return jsonify({
+        "assignments": [dict(assignment) for assignment in assignments]
+    }), 200
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
