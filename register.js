@@ -49,7 +49,7 @@ registerForm.addEventListener("submit", async (event) => {
     }
 
     try {
-        const response = await fetch("http://127.0.0.1:5000/register", {
+        const response = await fetch("http://127.0.0.1:5001/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -75,9 +75,14 @@ registerForm.addEventListener("submit", async (event) => {
 
         registerForm.reset();
 
-        setTimeout(() => {
-            window.location.replace("./index.html");
-        }, 1500);
+       registerMessage.textContent = "Registration successful. Redirecting...";
+registerMessage.style.color = "green";
+
+registerForm.reset();
+
+const loginPage = new URL("index.html", document.baseURI).href;
+
+window.location.assign(loginPage);
 
     } catch (error) {
         registerMessage.textContent = "Unable to connect to the server.";
