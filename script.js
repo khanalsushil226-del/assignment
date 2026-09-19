@@ -68,6 +68,8 @@ loginForm.addEventListener("submit", async (event) => {
         window.location.assign("dashboard.html");
 
     } catch (error) {
+        console.error("Login error:", error);
+
         loginMessage.textContent = "Unable to connect to the server.";
         loginMessage.style.color = "red";
     }
