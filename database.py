@@ -20,6 +20,19 @@ def create_database():
     if "email" not in column_names:
         cursor.execute("ALTER TABLE students ADD COLUMN email TEXT")
 
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS assignments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            subject TEXT NOT NULL,
+            description TEXT,
+            due_date TEXT NOT NULL,
+            teacher_id INTEGER NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (teacher_id) REFERENCES students(id)
+        )
+    """)
+
     connection.commit()
     connection.close()
 
