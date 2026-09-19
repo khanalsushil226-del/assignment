@@ -1,63 +1,74 @@
 const loginForm = document.getElementById("loginForm");
-const passwordInput = document.getElementById("password");
-const showPasswordButton = document.getElementById("showPassword");
+const role = document.getElementById("role");
+const username = document.getElementById("username");
+const password = document.getElementById("password");
+const showPassword = document.getElementById("showPassword");
 const loginMessage = document.getElementById("loginMessage");
-const roleInput = document.getElementById("role");
-const usernameInput = document.getElementById("username");
 
-showPasswordButton.addEventListener("click", () => {
-    const isPassword = passwordInput.type === "password";
+showPassword.addEventListener("click", () => {
+    const isPasswordHidden = password.type === "password";
 
-    passwordInput.type = isPassword ? "text" : "password";
-    showPasswordButton.textContent = isPassword ? "Hide Password" : "Show Password";
+    password.type = isPasswordHidden ? "text" : "password";
+
+    showPassword.textContent = isPasswordHidden
+        ? "Hide Password"
+        : "Show Password";
 });
 
-loginForm.addEventListener("submit", (event) => {
+loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const role = roleInput.value;
-    const username = usernameInput.value.trim();
-    const password = passwordInput.value.trim();
+    const selectedRole = role.value;
+    const enteredUsername = username.value.trim();
+    const enteredPassword = password.value;
 
     loginMessage.textContent = "";
     loginMessage.style.color = "";
 
-    if (!role) {
-        loginMessage.textContent = "Please select your role.";
-        loginMessage.style.color = "#dc3545";
-        return;
-    }
-
-    if (!username || !password) {
+    if (!selectedRole || !enteredUsername || !enteredPassword) {
         loginMessage.textContent = "Please fill in all fields.";
-        loginMessage.style.color = "#dc3545";
+        loginMessage.style.color = "red";
         return;
     }
 
-    if (password.length < 6) {
-        loginMessage.textContent = "Password must contain at least 6 characters.";
-        loginMessage.style.color = "#dc3545";
-        return;
+    try {
+        const response = await fetch("http://127.0.0.1:5001/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: enteredUsername,
+                password: enteredPassword
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            loginMessage.textContent = result.message;
+            loginMessage.style.color = "red";
+            return;
+        }
+
+        if (result.user.role !== selectedRole) {
+            loginMessage.textContent = "The selected role does not match your account.";
+            loginMessage.style.color = "red";
+            return;
+        }
+
+        localStorage.setItem("username", result.user.username);
+        localStorage.setItem("email", result.user.email);
+        localStorage.setItem("role", result.user.role);
+        localStorage.setItem("userId", result.user.id);
+
+        loginMessage.textContent = result.message;
+        loginMessage.style.color = "green";
+
+        window.location.assign("dashboard.html");
+
+    } catch (error) {
+        loginMessage.textContent = "Unable to connect to the server.";
+        loginMessage.style.color = "red";
     }
-
-    if (role === "student") {
-        localStorage.setItem("username", username);
-        localStorage.setItem("role", role);
-
-        window.location.href = "dashboard.html";
-    }
-
-    if (role === "teacher") {
-        loginMessage.textContent = "Teacher dashboard coming soon.";
-        loginMessage.style.color = "#056c24";
-    }
-});
-
-const forgotPasswordLink = document.querySelector(".forgot-password");
-
-forgotPasswordLink.addEventListener("click", (event) => {
-    event.preventDefault();
-
-    loginMessage.textContent = "Password recovery will be available soon.";
-    loginMessage.style.color = "#056c24";
 });
