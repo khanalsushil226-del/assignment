@@ -90,5 +90,55 @@ def register():
         "message": "Registration successful"
     }), 201
 
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+
+    if not data:
+        return jsonify({
+            "message": "Invalid request data"
+        }), 400
+
+    username = data.get("username", "").strip()
+    password = data.get("password", "")
+
+    if not username or not password:
+        return jsonify({
+            "message": "Username and password are required"
+        }), 400
+
+    connection = get_database()
+    cursor = connection.cursor()
+
+    user = cursor.execute(
+        """
+        SELECT id, username, email, password, role
+        FROM students
+        WHERE username = ?
+        """,
+        (username,)
+    ).fetchone()
+
+    connection.close()
+
+    if not user:
+        return jsonify({
+            "message": "Invalid username or password"
+        }), 401
+
+    if not check_password_hash(user["password"], password):
+        return jsonify({
+            "message": "Invalid username or password"
+        }), 401
+
+    return jsonify({
+        "message": "Login successful",
+        "user": {
+            "id": user["id"],
+            "username": user["username"],
+            "email": user["email"],
+            "role": user["role"]
+        }
+    }), 200
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
