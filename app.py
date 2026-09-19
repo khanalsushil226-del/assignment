@@ -140,5 +140,60 @@ def login():
             "role": user["role"]
         }
     }), 200
+@app.route("/assignments", methods=["POST"])
+def create_assignment():
+    data = request.get_json()
+
+    if not data:
+        return jsonify({
+            "message": "Invalid request data"
+        }), 400
+
+    title = data.get("title", "").strip()
+    subject = data.get("subject", "").strip()
+    description = data.get("description", "").strip()
+    due_date = data.get("due_date", "").strip()
+    teacher_id = data.get("teacher_id")
+
+    if not title or not subject or not due_date or not teacher_id:
+        return jsonify({
+            "message": "Title, subject, due date, and teacher ID are required"
+        }), 400
+
+    connection = get_database()
+    cursor = connection.cursor()
+
+    teacher = cursor.execute(
+        """
+        SELECT id FROM students
+        WHERE id = ? AND role = 'teacher'
+        """,
+        (teacher_id,)
+    ).fetchone()
+
+    if not teacher:
+        connection.close()
+
+        return jsonify({
+            "message": "Only teachers can create assignments"
+        }), 403
+
+    cursor.execute(
+        """
+        INSERT INTO assignments
+        (title, subject, description, due_date, teacher_id)
+        VALUES (?, ?, ?, ?, ?)
+        """,
+        (title, subject, description, due_date, teacher_id)
+    )
+
+    connection.commit()
+    assignment_id = cursor.lastrowid
+    connection.close()
+
+    return jsonify({
+        "message": "Assignment created successfully",
+        "assignment_id": assignment_id
+    }), 201
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
