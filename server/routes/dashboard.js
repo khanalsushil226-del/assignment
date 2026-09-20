@@ -28,6 +28,10 @@ router.get("/", requireAuth, (req, res) => {
       .get();
 
     data.pendingApprovals = stats.review;
+    data.totalSubmissions = stats.totalSubmissions;
+    data.review = stats.review;
+    data.approved = stats.approved;
+    data.revision = stats.revision;
     data.completionRate = 0;
 
     if (stats.totalSubmissions > 0) {
