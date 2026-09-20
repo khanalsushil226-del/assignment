@@ -1,95 +1,51 @@
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import {
-  api,
-  getToken,
-  setToken,
-  getStoredUser,
-  setStoredUser,
-} from '../api/client';
+import React, { createContext, useContext, useState, useCallback } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const AuthContext = createContext(null);
+const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
+export const useAuth = () => useContext(AuthContext);
+
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    let mounted = true;
-
-    (async () => {
-      const stored = await getStoredUser();
-      const hasToken = await getToken();
-
-      if (mounted) {
-        setUser(stored);
-      }
-
-      if (!hasToken) {
-        if (mounted) setLoading(false);
-        return;
-      }
-
-      try {
-        const data = await api.get('/api/auth/me');
-        if (mounted) {
-          setUser(data.user);
-          await setStoredUser(data.user);
-        }
-      } catch {
-        await logout();
-      } finally {
-        if (mounted) setLoading(false);
-      }
-    })();
-
-    return () => {
-      mounted = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  const login = useCallback(async ({ username, password }) => {
+    const stored = await AsyncStorage.getItem('users');
+    const users = stored ? JSON.parse(stored) : [];
+    const userData = users.find(
+      (u) => u.username === username && u.password === password
+    );
+    if (userData) {
+      setUser({ ...userData, loggedIn: true });
+      return userData;
+    }
+    throw new Error('Invalid username or password');
   }, []);
 
-  const login = useCallback(async (credentials) => {
-    const data = await api.post('/api/auth/login', credentials);
-    await setToken(data.token);
-    await setStoredUser(data.user);
-    setUser(data.user);
-    return data.user;
-  }, []);
-
-  const register = useCallback(async (payload) => {
-    const data = await api.post('/api/auth/register', payload);
-    await setToken(data.token);
-    await setStoredUser(data.user);
-    setUser(data.user);
-    return data.user;
+  const register = useCallback(async ({ username, password, role }) => {
+    const stored = await AsyncStorage.getItem('users');
+    const users = stored ? JSON.parse(stored) : [];
+    if (users.some((u) => u.username === username)) {
+      throw new Error('Username already exists');
+    }
+    const newUser = { username, password, role, loggedIn: true };
+    await AsyncStorage.setItem('users', JSON.stringify([...users, newUser]));
+    setUser(newUser);
+    return newUser;
   }, []);
 
   const logout = useCallback(async () => {
-    await setToken('');
-    await setStoredUser(null);
+    await AsyncStorage.removeItem('users');
     setUser(null);
   }, []);
 
-  const updateUser = useCallback(async (nextUser) => {
-    setUser(nextUser);
-    await setStoredUser(nextUser);
-  }, []);
+  if (isLoading) {
+    return <null />;
+  }
 
-  const value = useMemo(
-    () => ({ user, loading, login, register, logout, updateUser }),
-    [user, loading, login, register, logout, updateUser],
+  return (
+    <AuthContext.Provider value={{ user, login, register, logout }}>
+      {children}
+    </AuthContext.Provider>
   );
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
-export function useAuth() {
-  return useContext(AuthContext);
-}
+};
