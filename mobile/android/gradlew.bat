@@ -73,8 +73,16 @@ goto fail
 set CLASSPATH=%APP_HOME%\gradle\wrapper\gradle-wrapper.jar
 
 
+@rem TaskFlow: keep Gradle's project cache out of the Desktop tree to avoid
+@rem antivirus file-lock errors ("Could not move temporary workspace").
+if not "%*"=="" (
+  echo %* | findstr /I /C:"--project-cache-dir" >nul 2>&1 && set APP_ARGS=%* || set "APP_ARGS=%* --project-cache-dir=%TEMP%\gradle-project-cache"
+) else (
+  set "APP_ARGS=--project-cache-dir=%TEMP%\gradle-project-cache"
+)
+
 @rem Execute Gradle
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %GRADLE_OPTS% "-Dorg.gradle.appname=%APP_BASE_NAME%" -classpath "%CLASSPATH%" org.gradle.wrapper.GradleWrapperMain %*
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %GRADLE_OPTS% "-Dorg.gradle.appname=%APP_BASE_NAME%" -classpath "%CLASSPATH%" org.gradle.wrapper.GradleWrapperMain %APP_ARGS%
 
 :end
 @rem End local scope for the variables with windows NT shell
