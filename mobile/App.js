@@ -36,7 +36,7 @@ function Main() {
       sidebarOpen={sidebarOpen}
       setSidebarOpen={setSidebarOpen}
     >
-      {tab === 'dashboard' && <Dashboard />}
+      {tab === 'dashboard' && <Dashboard onNavigate={setTab} />}
       {tab === 'tasks' && <MyTasks />}
       {tab === 'submissions' && <Submissions />}
       {tab === 'calendar' && <CalendarScreen />}

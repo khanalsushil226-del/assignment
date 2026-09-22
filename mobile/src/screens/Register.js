@@ -31,17 +31,23 @@ export default function Register({ onSwitchToLogin }) {
       return;
     }
 
+    if (!email.trim()) {
+      setError('Please enter your email address.');
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
     }
 
     try {
-      const user = await register({ username: username.trim(), password, role });
-      // After successful register, automatically login
-      // In a real app you'd redirect; here we just close modal / show success
-      alert('Account created successfully!');
-      onSwitchToLogin();
+      await register({
+        username: username.trim(),
+        email: email.trim(),
+        password,
+        role,
+      });
     } catch (err) {
       setError(err.message);
     }
@@ -94,6 +100,14 @@ export default function Register({ onSwitchToLogin }) {
           value={username}
           onChangeText={setUsername}
           placeholder="Enter your username"
+        />
+
+        <Field
+          label="Email"
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Enter your email"
+          keyboardType="email-address"
         />
 
         <View style={styles.field}>
