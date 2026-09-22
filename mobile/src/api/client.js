@@ -2,9 +2,9 @@ import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Android emulator reaches the host machine via 10.0.2.2.
-// For a physical device, replace with your computer's LAN IP, e.g. http://192.168.1.5:5001
+// For a physical device, replace with your computer's LAN IP, e.g. http://192.168.1.73:5001
 export const BASE_URL = Platform.select({
-  android: 'http://10.0.2.2:5001',
+  android: 'http://192.168.1.73:5001',
   default: 'http://localhost:5001',
 });
 
