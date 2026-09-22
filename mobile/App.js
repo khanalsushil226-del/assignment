@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import AppShell from './components/AppShell';
-import Login from './screens/Login';
-import Register from './screens/Register';
-import Dashboard from './screens/Dashboard';
-import MyTasks from './screens/MyTasks';
-import Submissions from './screens/Submissions';
-import CalendarScreen from './screens/Calendar';
-import Settings from './screens/Settings';
+import { AuthProvider, useAuth } from './src/context/AuthContext';
+import AppShell from './src/components/AppShell';
+import Login from './src/screens/Login';
+import Register from './src/screens/Register';
+import Dashboard from './src/screens/Dashboard';
+import MyTasks from './src/screens/MyTasks';
+import Submissions from './src/screens/Submissions';
+import CalendarScreen from './src/screens/Calendar';
+import Settings from './src/screens/Settings';
 import { colors } from './src/theme';
 
 function AuthScreens() {

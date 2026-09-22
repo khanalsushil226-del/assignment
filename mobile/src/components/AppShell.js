@@ -4,14 +4,6 @@ import { SafeAreaView } from 'react-native';
 import { colors } from '../theme';
 import Sidebar from './Sidebar';
 
-const titles = {
-  dashboard: 'Dashboard',
-  tasks: 'My Tasks',
-  submissions: 'Submissions',
-  calendar: 'Calendar',
-  settings: 'Settings',
-};
-
 export default function AppShell({ tab, setTab, username, role, onLogout, sidebarOpen, setSidebarOpen, children }) {
   return (
     <SafeAreaView style={styles.safe}>

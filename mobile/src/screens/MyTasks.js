@@ -97,7 +97,7 @@ export default function MyTasks() {
 
   async function handleQuestion() {
     setMessage(null);
-    if (!question.trim()) return;
+    if (!question.trim()) {return;}
     try {
       await api.post('/api/questions', { content: question.trim() });
       setQuestion('');

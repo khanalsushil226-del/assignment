@@ -65,7 +65,7 @@ export default function Submissions() {
   }, []);
 
   const filtered = useMemo(() => {
-    if (statusFilter === 'all') return submissions;
+    if (statusFilter === 'all') {return submissions;}
     return submissions.filter((row) => row.status === statusFilter);
   }, [submissions, statusFilter]);
 
@@ -76,7 +76,7 @@ export default function Submissions() {
         copyTo: 'cachesDirectory',
       });
       const doc = picked && picked[0];
-      if (!doc) return;
+      if (!doc) {return;}
       setFile({
         uri: doc.fileCopyUri || doc.uri,
         name: doc.name || 'document',

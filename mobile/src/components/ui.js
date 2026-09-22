@@ -86,7 +86,7 @@ export function EmptyState({ title, subtitle }) {
 }
 
 export function Loading({ visible, text }) {
-  if (!visible) return null;
+  if (!visible) {return null;}
   return (
     <View style={styles.loading}>
       <ActivityIndicator color={colors.primary} size="large" />
@@ -111,7 +111,7 @@ export function CenterModal({ visible, onClose, title, subtitle, children, foote
 }
 
 export function Message({ message }) {
-  if (!message) return null;
+  if (!message) {return null;}
   return (
     <Text style={[styles.message, { color: message.color || colors.primary }]}>
       {message.text}

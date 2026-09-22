@@ -41,9 +41,9 @@ export async function setStoredUser(user) {
 }
 
 export function formatDate(dateString) {
-  if (!dateString) return '';
+  if (!dateString) {return '';}
   const date = new Date(`${dateString}T00:00:00`);
-  if (Number.isNaN(date.getTime())) return String(dateString);
+  if (Number.isNaN(date.getTime())) {return String(dateString);}
   return date.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
@@ -52,9 +52,9 @@ export function formatDate(dateString) {
 }
 
 export function formatFullDate(dateString) {
-  if (!dateString) return '';
+  if (!dateString) {return '';}
   const date = new Date(`${dateString}T00:00:00`);
-  if (Number.isNaN(date.getTime())) return String(dateString);
+  if (Number.isNaN(date.getTime())) {return String(dateString);}
   return date.toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
@@ -64,10 +64,10 @@ export function formatFullDate(dateString) {
 
 export function subjectLabel(subject) {
   const value = String(subject || '').toLowerCase();
-  if (value.includes('python')) return 'Python';
-  if (value.includes('database') || value.includes('sql')) return 'Database';
-  if (value.includes('web') || value.includes('html')) return 'Web Development';
-  if (value.includes('project')) return 'Project';
+  if (value.includes('python')) {return 'Python';}
+  if (value.includes('database') || value.includes('sql')) {return 'Database';}
+  if (value.includes('web') || value.includes('html')) {return 'Web Development';}
+  if (value.includes('project')) {return 'Project';}
   return 'General';
 }
 

@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
           return;
         }
         const data = await api.get('/api/auth/me');
-        if (!active) return;
+        if (!active) {return;}
         const next = { ...data.user, email: data.user.email ?? stored.email };
         setUser(next);
         await setStoredUser(next);
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
         await setToken(null);
         await setStoredUser(null);
       } finally {
-        if (active) setIsLoading(false);
+        if (active) {setIsLoading(false);}
       }
     }
 
