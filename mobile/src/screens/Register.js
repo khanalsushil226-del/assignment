@@ -17,6 +17,7 @@ export default function Register({ onSwitchToLogin }) {
   const { register } = useAuth();
 
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [role, setRole] = useState('student');

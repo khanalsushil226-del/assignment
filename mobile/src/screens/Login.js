@@ -14,7 +14,7 @@ import { PrimaryButton, Field, Message } from '../components/ui';
 import { colors } from '../theme';
 
 export default function Login({ onSwitchToRegister }) {
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
 
   const [role, setRole] = useState('student');
   const [username, setUsername] = useState('');
@@ -34,8 +34,8 @@ export default function Login({ onSwitchToRegister }) {
       const user = await login({ username: username.trim(), password });
 
       if (user.role !== role) {
+        await logout();
         setError('The selected role does not match your account.');
-        return;
       }
     } catch (err) {
       setError(err.message);

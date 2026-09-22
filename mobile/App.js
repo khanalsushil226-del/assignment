@@ -1,64 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SafeAreaView, StyleSheet, StatusBar } from 'react-native';
-import { useAuth } from './context/AuthContext';
-import Sidebar from './components/Sidebar';
+import React, { useState } from 'react';
+import { StatusBar, StyleSheet, View } from 'react-native';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import AppShell from './components/AppShell';
 import Login from './screens/Login';
 import Register from './screens/Register';
+import Dashboard from './screens/Dashboard';
+import MyTasks from './screens/MyTasks';
+import Submissions from './screens/Submissions';
+import CalendarScreen from './screens/Calendar';
+import Settings from './screens/Settings';
+import { colors } from './src/theme';
 
-const Stack = createNativeStackNavigator();
+function AuthScreens() {
+  const [mode, setMode] = useState('login');
 
-function AuthStack({ navigation }) {
-  const { user, login, register } = useAuth();
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        ...(user ? { presentation: 'none' } : {}),
-      }}
-    >
-      {user ? null : (
-        <>
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
-        </>
-      )}
-    </Stack.Navigator>
-  );
-}
+  if (mode === 'login') {
+    return <Login onSwitchToRegister={() => setMode('register')} onSwitchToLogin={() => setMode('login')} />;
+  }
 
-function MainScreen({ navigation }) {
-  const { user, logout } = useAuth();
-  const [tab, setTab] = useState('dashboard');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const screens = {
-    dashboard: 'Dashboard screen',
-    tasks: 'My Tasks screen',
-    submissions: 'Submissions screen',
-    calendar: 'Calendar screen',
-    settings: 'Settings screen',
-  };
-
-  return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerTitle: '',
-          headerShown: false,
-          ...(tab === 'dashboard' ? { presentation: 'none' } : {}),
-        }}
-      >
-        <Stack.Screen name="Main" component={Main} initial={true} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+  return <Register onSwitchToLogin={() => setMode('login')} />;
 }
 
 function Main() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [tab, setTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -68,49 +32,41 @@ function Main() {
       setTab={setTab}
       username={user?.username}
       role={user?.role}
-      onLogout={() => {
-        // logout called by AuthContext; handle navigation back
-        setSidebarOpen(false);
-      }}
+      onLogout={logout}
       sidebarOpen={sidebarOpen}
       setSidebarOpen={setSidebarOpen}
     >
-      {/* Active screen based on tab */}
-      {tab === 'dashboard' && <Text>Dashboard</Text>}
-      {tab === 'tasks' && <Text>My Tasks</Text>}
-      {tab === 'submissions' && <Text>Submissions</Text>}
-      {tab === 'calendar' && <Text>Calendar</Text>}
-      {tab === 'settings' && <Text>Settings</Text>}
+      {tab === 'dashboard' && <Dashboard />}
+      {tab === 'tasks' && <MyTasks />}
+      {tab === 'submissions' && <Submissions />}
+      {tab === 'calendar' && <CalendarScreen />}
+      {tab === 'settings' && <Settings />}
     </AppShell>
   );
 }
 
-export default function App() {
+function Root() {
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
-    return <StatusBar barStyle="dark-content" />;
+    return <View style={styles.splash} />;
   }
 
+  return user ? <Main /> : <AuthScreens />;
+}
+
+export default function App() {
   return (
-    <>
-      <AuthProvider>
-        {user ? (
-          <NavigationContainer>
-            <Stack.Navigator
-              screenOptions={{
-                headerTitle: '',
-                headerShown: false,
-                ...(tab === 'dashboard' ? { presentation: 'none' } : {}),
-              }}
-            >
-              <Stack.Screen name="Main" component={Main} initial={true} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        ) : (
-          <AuthStack />
-        )}
-      </AuthProvider>
-    </>
+    <AuthProvider>
+      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <Root />
+    </AuthProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  splash: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+});

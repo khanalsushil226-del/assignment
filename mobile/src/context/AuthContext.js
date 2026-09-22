@@ -1,7 +1,13 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from 'react';
+import { api, getToken, setToken, getStoredUser, setStoredUser } from '../api/client';
 
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -9,42 +15,74 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const login = useCallback(async ({ username, password }) => {
-    const stored = await AsyncStorage.getItem('users');
-    const users = stored ? JSON.parse(stored) : [];
-    const userData = users.find(
-      (u) => u.username === username && u.password === password
-    );
-    if (userData) {
-      setUser({ ...userData, loggedIn: true });
-      return userData;
+  useEffect(() => {
+    let active = true;
+
+    async function restore() {
+      try {
+        const token = await getToken();
+        const stored = await getStoredUser();
+        if (!token || !stored) {
+          return;
+        }
+        const data = await api.get('/api/auth/me');
+        if (!active) return;
+        const next = { ...data.user, email: data.user.email ?? stored.email };
+        setUser(next);
+        await setStoredUser(next);
+      } catch {
+        await setToken(null);
+        await setStoredUser(null);
+      } finally {
+        if (active) setIsLoading(false);
+      }
     }
-    throw new Error('Invalid username or password');
+
+    restore();
+
+    return () => {
+      active = false;
+    };
   }, []);
 
-  const register = useCallback(async ({ username, password, role }) => {
-    const stored = await AsyncStorage.getItem('users');
-    const users = stored ? JSON.parse(stored) : [];
-    if (users.some((u) => u.username === username)) {
-      throw new Error('Username already exists');
-    }
-    const newUser = { username, password, role, loggedIn: true };
-    await AsyncStorage.setItem('users', JSON.stringify([...users, newUser]));
-    setUser(newUser);
-    return newUser;
+  const login = useCallback(async ({ username, password }) => {
+    const data = await api.post('/api/auth/login', { username, password });
+    await setToken(data.token);
+    await setStoredUser(data.user);
+    setUser(data.user);
+    return data.user;
+  }, []);
+
+  const register = useCallback(async ({ username, email, password, role }) => {
+    const data = await api.post('/api/auth/register', {
+      username,
+      email,
+      password,
+      role,
+    });
+    const next = { ...data.user, email };
+    await setToken(data.token);
+    await setStoredUser(next);
+    setUser(next);
+    return next;
   }, []);
 
   const logout = useCallback(async () => {
-    await AsyncStorage.removeItem('users');
+    await setToken(null);
+    await setStoredUser(null);
     setUser(null);
   }, []);
 
-  if (isLoading) {
-    return <null />;
-  }
+  const updateUser = useCallback((updates) => {
+    setUser((prev) => {
+      const next = { ...(prev || {}), ...updates };
+      setStoredUser(next);
+      return next;
+    });
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, register, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
